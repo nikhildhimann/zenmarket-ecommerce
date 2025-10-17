@@ -81,12 +81,15 @@ export const payuSuccess = asyncHandler(async (req, res) => {
             await Cart.updateOne({ user: order.user }, { $set: { items: [], coupon: null } });
         }
     }
-    res.redirect('http://localhost:5173/payment-success');
+    // res.redirect('http://localhost:5173/payment-success');
+    res.redirect('https://zenmarket-ecommerce.vercel.app/payment-success');
 });
 
 // @desc    Handle failed PayU payment
 export const payuFailure = asyncHandler(async (req, res) => {
     const { txnid, status } = req.body;
     await Order.findOneAndUpdate({ "paymentInfo.id": txnid }, { "paymentInfo.status": status, "orderStatus": "Payment Failed" });
-    res.redirect('http://localhost:5173/payment-failure');
+    // res.redirect('http://localhost:5173/payment-failure');
+    res.redirect('https://zenmarket-ecommerce.vercel.app/payment-failure');
+
 });

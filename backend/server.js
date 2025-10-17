@@ -30,9 +30,8 @@ const server = http.createServer(app);
 // --- CORS Configuration for Deployment ---
 // This list defines which frontend URLs are allowed to make requests to your API.
 const allowedOrigins = [
-    'http://localhost:5173', // Your local frontend for development
-    // Add your live Vercel frontend URL here once you deploy it.
-    // Example: 'https://zenmarket-frontend.vercel.app' 
+    'http://localhost:5173', // Your local frontend for development 
+    'https://zenmarket-ecommerce.vercel.app',
 ];
 
 const corsOptions = {
@@ -100,3 +99,8 @@ connectDB()
     console.log(`Server connection error: ${error.message}`);
   });
 
+
+  // test api
+app.get("/", (req, res) => {
+    res.send("API is running...");
+});

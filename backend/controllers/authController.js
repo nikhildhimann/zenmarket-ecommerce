@@ -99,7 +99,8 @@ export const requestPasswordReset = asyncHandler(async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     // This creates a link to your frontend's password reset page
-    const resetURL = `http://localhost:5173/resetpassword?token=${resetToken}`;
+    // const resetURL = `http://localhost:5173/resetpassword?token=${resetToken}`;
+    const resetURL = `https://zenmarket-ecommerce.vercel.app/resetpassword?token=${resetToken}`;
 
     // --- Full Email Sending Logic ---
     try {
