@@ -9,7 +9,7 @@ export const injectStore = (_store) => {
 };
 
 const axiosInstance = axios.create({
-  baseURL: '/api', // Your API base URL from vite.config.js
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
 });
 
 // This request interceptor is correct and reads the token from localStorage.

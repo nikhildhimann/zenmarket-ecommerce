@@ -26,24 +26,43 @@ import couponRoutes from './routes/coupon/couponRoute.js';
 
 const app = express();
 const server = http.createServer(app);
+
+// --- CORS Configuration for Deployment ---
+// This list defines which frontend URLs are allowed to make requests to your API.
+const allowedOrigins = [
+    'http://localhost:5173', // Your local frontend for development
+    // Add your live Vercel frontend URL here once you deploy it.
+    // Example: 'https://zenmarket-frontend.vercel.app' 
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+};
+
 const io = new Server(server, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"]
-    }
+    cors: corsOptions // Use the same CORS options for Socket.io
 });
 
-app.use(cors());
+app.use(cors(corsOptions)); // Use the CORS options for all Express routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware to make the `io` instance available to your controllers
 app.use((req, res, next) => {
     req.io = io;
     next();
 });
 
 // --- API Routes ---
-// ✨ FIX: Placed the more specific '/api/auth/user' route BEFORE the general '/api/auth' route.
 app.use("/api/auth/user", userRoutes); 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/auth", adminAuthRoutes);
@@ -59,6 +78,7 @@ app.use("/api/v1/payment", paymentRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/coupon', couponRoutes);
 
+// --- Socket.io Connection Logic ---
 io.on('connection', (socket) => {
     console.log('A user connected via WebSocket:', socket.id);
     socket.on('disconnect', () => {
@@ -66,10 +86,12 @@ io.on('connection', (socket) => {
     });
 });
 
+// Centralized Error Handler (must be the last middleware)
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
+// Connect to the database and then start the server
 connectDB()
   .then(() => {
     server.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
