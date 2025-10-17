@@ -2,114 +2,164 @@ ZenMarket - Full-Stack E-commerce Platform
 
 Welcome to ZenMarket, a modern, feature-rich e-commerce application built with the MERN stack. This project showcases a complete online shopping experience, from browsing products to real-time order notifications, all wrapped in a sleek, responsive design.
 
-✨ Features
+✨ Key Features
 
 Modern & Responsive UI: Beautiful, premium design that works on all devices, with a toggle for Light/Dark Mode.
 
-Full-Featured E-commerce Flow: Browse products, add to cart, apply coupons, and complete the checkout process.
+Full E-commerce Flow: Browse products, add to cart, apply coupons, and complete the checkout process with a secure payment gateway.
 
-Advanced Product Management: Filter by category/brand and sort by price/name.
+Advanced Product Filtering: Filter products by category and brand, and sort by price or name.
 
-User Authentication: Secure user registration and login, with password reset functionality.
+Secure User Authentication: Robust user registration and login system with password reset functionality via email.
 
-Personalized User Experience: Users can manage their profile, view order history, and maintain a wishlist.
+Personalized User Experience: Users can manage their profile, view order history, and maintain a persistent wishlist.
 
-Admin Dashboard: A powerful admin panel with analytics charts (Total Revenue, Sales Trends), and management sections for products, orders, and coupons.
+Powerful Admin Dashboard: A comprehensive admin panel with analytics charts (Total Revenue, Sales Trends), and full CRUD management for products, orders, and coupons.
 
-Real-Time Notifications: Admins receive instant notifications for new orders via Socket.io.
+Real-Time Admin Notifications: Admins receive instant pop-up notifications for new orders via Socket.io.
 
-Email Notifications: Customers receive an email confirmation upon successful payment.
+Automated Email Notifications: Customers receive an email confirmation upon successful payment.
 
-PWA Support: The application is installable on mobile devices for a native-app-like experience.
+PWA Ready: The application is installable on mobile devices for a native-app-like experience.
 
 🛠️ Tech Stack
 
-Frontend:
+Frontend
 
-React 19
+Framework: React 19 with Vite
 
-Vite
+UI Library: Material-UI (MUI) for a modern component library.
 
-Material-UI (MUI) for component styling
+State Management: Redux Toolkit for a centralized and predictable state container.
 
-Redux Toolkit for state management
+Routing: React Router for client-side navigation.
 
-React Router for navigation
+API Communication: Axios for handling HTTP requests.
 
-Axios for API requests
+Data Visualization: Recharts for creating beautiful dashboard charts.
 
-Recharts for data visualization
+Real-Time: Socket.io-client to receive live notifications.
 
-Socket.io-client for real-time communication
+Backend
 
-Backend:
+Runtime: Node.js
 
-Node.js
+Framework: Express.js
 
-Express.js
+Database: MongoDB with Mongoose for object data modeling.
 
-MongoDB with Mongoose
+Authentication: JSON Web Tokens (JWT) for secure, stateless authentication.
 
-JSON Web Tokens (JWT) for authentication
+Security: Bcrypt for password hashing.
 
-Bcrypt for password hashing
+File Storage: Cloudinary for cloud-based image hosting.
 
-Cloudinary for image hosting
+Email Service: Nodemailer for sending transactional emails.
 
-Nodemailer for sending emails
-
-Socket.io for real-time communication
+Real-Time: Socket.io for event-based communication.
 
 🚀 Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
 Prerequisites
 
-Node.js (v18 or higher)
+Node.js (v18 or higher recommended)
 
-npm
+npm (or yarn)
 
-MongoDB (local or a cloud instance like MongoDB Atlas)
+MongoDB (a local instance or a free cloud account on MongoDB Atlas)
 
 Installation & Setup
 
 Clone the repository:
 
 git clone [https://github.com/nikhildhimann/zenmarket-ecommerce.git](https://github.com/nikhildhimann/zenmarket-ecommerce.git)
-cd ecommerce-fullstack-app
+cd zenmarket-ecommerce
 
 
 Set up the Backend:
 
+Navigate to the backend directory:
+
 cd backend
+
+
+Install the dependencies:
+
 npm install
 
 
-Create a .env file in the backend root and add your environment variables (database URI, JWT secret, Cloudinary keys, SMTP details, etc.).
+Create a .env file in the backend root. This file will hold your secret keys. Copy the contents of .env.example into it and fill in your values.
 
 Set up the Frontend:
 
-cd ../frontend
+Navigate to the frontend directory from the root:
+
+cd frontend
+
+
+Install the dependencies:
+
 npm install
 
 
-Running the Application
+Environment Variables (.env)
+
+Your backend .env file should look like this. Do not commit this file to GitHub.
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRE=5d
+
+# Cloudinary Config
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Nodemailer (for password reset emails)
+SMTP_HOST=your_smtp_host
+SMTP_PORT=your_smtp_port
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+EMAIL_FROM=youremail@example.com
+
+# PayU (if applicable)
+PAYU_MERCHANT_KEY=your_payu_key
+PAYU_MERCHANT_SALT=your_payu_salt
+
+
+🏃 Running the Application
+
+You will need two separate terminals to run both the frontend and backend servers simultaneously.
 
 Start the Backend Server:
 
+Navigate to the backend directory:
+
 cd backend
+
+
+Run the development server:
+
 npm run dev
 
 
-The server will start on http://localhost:5000 (or your specified port).
+The server will start on http://localhost:5000 (or the port you specified).
 
 Start the Frontend Development Server:
 
+Navigate to the frontend directory:
+
 cd frontend
+
+
+Run the development server:
+
 npm run dev
 
 
-The React app will open in your browser at http://localhost:5173.
+The React app will open automatically in your browser at http://localhost:5173.
 
-This project was developed to showcase a complete and modern full-stack application.
+This project was developed to showcase a complete and modern full-stack application, demonstrating best practices in both frontend and backend development.
