@@ -8,6 +8,7 @@ import theme from './theme'; // 2. Import your new theme
 import './index.css';
 import { injectStore } from './api/axiosInstance';
 import { CustomThemeProvider } from './context/ThemeContext';
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 
 injectStore(store);
