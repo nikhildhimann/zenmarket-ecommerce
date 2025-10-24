@@ -11,7 +11,7 @@ export const injectStore = (_store) => {
 // It tells your frontend to use the live API URL you set in Vercel.
 // If that variable doesn't exist (like in local development), it defaults to the proxy path.
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URLPI_BASE_URL || '/api',
 });
 
 // Interceptor to add the token to every outgoing request
