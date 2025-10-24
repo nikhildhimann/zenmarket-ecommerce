@@ -1,42 +1,45 @@
-import axios from 'axios';
-import { logout } from '../redux/authSlice';
+    import axios from 'axios';
+    import { logout } from '../redux/authSlice'; // Ensure this path is correct
 
-let store;
+    let store;
 
-export const injectStore = (_store) => {
-  store = _store;
-};
+    // This function allows the interceptor to dispatch actions
+    export const injectStore = (_store) => {
+      store = _store;
+    };
 
-// ✨ FIX: This is the crucial change for deployment.
-// It tells your frontend to use the live API URL you set in Vercel.
-// If that variable doesn't exist (like in local development), it defaults to the proxy path.
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URLPI_BASE_URL || '/api',
-});
+    // Use the VITE_API_BASE_URL from Vercel environment variables for production builds.
+    // Fall back to '/api' for local development (which uses the Vite proxy).
+    const axiosInstance = axios.create({
+      baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+    });
 
-// Interceptor to add the token to every outgoing request
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('userToken');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+    // Request interceptor to add the auth token from localStorage
+    axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('userToken');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
-// Interceptor to catch 401 errors on responses and logout the user
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      if (store) {
-        store.dispatch(logout());
+    // Response interceptor to handle 401 Unauthorized errors by logging out
+    axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          // Only logout on 401 errors (invalid/expired token)
+          if (store) {
+            store.dispatch(logout());
+          }
+        }
+        // Let other errors (like 404, 403, 500) be handled by the calling code
+        return Promise.reject(error);
       }
-    }
-    return Promise.reject(error);
-  }
-);
+    );
 
-export default axiosInstance;
+    export default axiosInstance;
+    
